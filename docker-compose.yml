@@ -1,21 +1,31 @@
 services:
-  app:
-    build: .
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/ebre_auth_modern
+      - SESSION_SECRET=super-secret-modern-nest-key
+      - NODE_ENV=development
+      - PORT=3001
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/ebre_auth
-      - SESSION_SECRET=qwerty1234567890!@#$$%^&*()
-      - NODE_ENV=development
+      - API_URL=http://backend:3001
     depends_on:
-      - mongodb
+      - backend
 
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_data_modern:/data/db
 
 volumes:
-  mongodb_data:
+  mongodb_data_modern:
