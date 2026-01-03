@@ -5,7 +5,7 @@ const sessionConfig = session({
     secret: process.env.SESSION_SECRET || 'a-very-secret-key-change-this-in-production',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
+    store: (MongoStore.create ? MongoStore : MongoStore.default).create({
         mongoUrl: process.env.MONGODB_URI || 'mongodb://mongodb:27017/ebre_auth',
         collectionName: 'sessions'
     }),
