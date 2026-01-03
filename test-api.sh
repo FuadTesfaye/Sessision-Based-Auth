@@ -32,7 +32,7 @@ RESPONSE=$(curl -s -X POST "$BASE_URL/auth/register" \
 echo "$RESPONSE" | grep -q '"role":"user"' || echo_failure "Second user is not 'user'"
 echo_success "Second user registered as 'user'"
 
-USER_ID=$(echo "$RESPONSE" | sed -n 's/.*"id":"\([^"]*\)".*/\1/p')
+USER_ID=$(echo "$RESPONSE" | sed -n 's/.*"\(_id\|id\)":"\([^"]*\)".*/\2/p')
 
 echo_title "3. Verifying /me for regular user"
 curl -s -b "$COOKIE_JAR" "$BASE_URL/auth/me" | grep -q '"email":"user@example.com"' || echo_failure "/me check failed"

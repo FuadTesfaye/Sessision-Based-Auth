@@ -35,6 +35,7 @@ router.patch('/users/:id/role', async (req, res) => {
 
         res.json(user);
     } catch (error) {
+        console.error('Role update error:', error);
         res.status(500).json({ error: 'Role update failed' });
     }
 });
